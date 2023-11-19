@@ -33,7 +33,7 @@ namespace ETicaretAPI.API.Controllers
         [HttpPost]
         public async Task<IActionResult> Post(VM_Create_Product model)
         {
-            _productWriteRepository.AddAsync(new()
+            await _productWriteRepository.AddAsync(new()
             {
                 Name = model.Name,
                 Price = model.Price,
@@ -52,7 +52,7 @@ namespace ETicaretAPI.API.Controllers
             await _productWriteRepository.SaveAsync();
             return Ok();
         }
-        [HttpDelete]
+        [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(string id)
         {
             await _productWriteRepository.RemoveAsync(id);
