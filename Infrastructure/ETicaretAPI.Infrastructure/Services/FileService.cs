@@ -25,7 +25,7 @@ namespace ETicaretAPI.Infrastructure.Services
             return true;
         }
 
-        public Task<string> FileRenameAsync(string filenAME)
+        public Task<string> FileRenameAsync(string fileName)
         {
             throw new NotImplementedException();
         }
