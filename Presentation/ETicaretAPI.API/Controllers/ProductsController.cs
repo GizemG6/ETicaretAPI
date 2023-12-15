@@ -107,6 +107,6 @@ namespace ETicaretAPI.API.Controllers
             }*/
             await _fileService.UploadAsync("resource/product-images", Request.Form.Files);
             return Ok();
-        }
+        }//todo
     }
 }
