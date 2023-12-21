@@ -104,7 +104,7 @@ namespace ETicaretAPI.API.Controllers
                 using FileStream fileStream = new(fullPath, FileMode.Create, FileAccess.Write, FileShare.None, 1024 * 1024, useAsync: false);
                 await file.CopyToAsync(fileStream);
                 await fileStream.FlushAsync();
-            }*/
+            }*/ //todo
             await _fileService.UploadAsync("resource/product-images", Request.Form.Files);
             return Ok();
         }
