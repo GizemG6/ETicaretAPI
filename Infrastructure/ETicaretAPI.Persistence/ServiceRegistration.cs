@@ -3,7 +3,6 @@ using ETicaretAPI.Application.Repositories;
 using ETicaretAPI.Persistence.Concretes;
 using ETicaretAPI.Persistence.Contexts;
 using ETicaretAPI.Persistence.Repositories;
-using ETicaretAPI.Persistence.Repositories.ProductImageFile;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using System;
