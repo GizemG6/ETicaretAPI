@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace ETicaretAPI.Persistence.Concretes
 {
-    public class ProductService : IProductService
+    public class ProductService
     {
         public List<Product> GetProducts()
             => new() 

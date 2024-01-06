@@ -1,4 +1,5 @@
-﻿using ETicaretAPI.Application.Repositories;
+﻿using ETicaretAPI.Application.Abstractions.Storage;
+using ETicaretAPI.Application.Repositories;
 using ETicaretAPI.Application.RequestParameters;
 using ETicaretAPI.Application.ViewModels.Products;
 using ETicaretAPI.Domain.Entities;
@@ -22,6 +23,7 @@ namespace ETicaretAPI.API.Controllers
         readonly IProductImageFileWriteRepository _productImageFileWriteRepository;
         readonly IInvoiceFileReadRepository _invoiceFileReadRepository;
         readonly IInvoiceFileWriteRepository _invoiceFileWriteRepository;
+        readonly IStorageService _storageService;
 
         public ProductsController(
             IProductWriteRepository productWriteRepository, 
@@ -32,7 +34,8 @@ namespace ETicaretAPI.API.Controllers
             IProductImageFileReadRepository productImageFileReadRepository, 
             IProductImageFileWriteRepository productImageFileWriteRepository, 
             IInvoiceFileReadRepository invoiceFileReadRepository, 
-            IInvoiceFileWriteRepository invoiceFileWriteRepository)
+            IInvoiceFileWriteRepository invoiceFileWriteRepository,
+            IStorageService storageService)
         {
             _productWriteRepository = productWriteRepository;
             _productReadRepository = productReadRepository;
@@ -43,6 +46,7 @@ namespace ETicaretAPI.API.Controllers
             _productImageFileWriteRepository = productImageFileWriteRepository;
             _invoiceFileReadRepository = invoiceFileReadRepository;
             _invoiceFileWriteRepository = invoiceFileWriteRepository;
+            _storageService = storageService;
         }
 
         [HttpGet]
@@ -108,6 +112,7 @@ namespace ETicaretAPI.API.Controllers
         [HttpPost("[action]")]
         public async Task<IActionResult> Upload()
         {
+            var datas = await _storageService.UploadAsync("reaource/files", Request.Form.Files);
             /*string uploadPath = Path.Combine(_webHostEnvironment.WebRootPath,"resource/product-images");
 
             if (!Directory.Exists(uploadPath))
@@ -123,12 +128,13 @@ namespace ETicaretAPI.API.Controllers
                 await fileStream.FlushAsync();
             }*/ //todo
             //var datas = await _fileService.UploadAsync("resource/product-images", Request.Form.Files);
-            /*await _productImageFileWriteRepository.AddRangeAsync(datas.Select(d => new ProductImageFile()
+            await _productImageFileWriteRepository.AddRangeAsync(datas.Select(d => new ProductImageFile()
             {
                 FileName = d.fileName,
-                Path = d.path
+                Path = d.path,
+                Storage = _storageService.StorageName
             }).ToList());
-            await _productImageFileWriteRepository.SaveAsync();*/
+            await _productImageFileWriteRepository.SaveAsync();
             /*await _fileWriteRepository.AddRangeAsync(datas.Select(d => new ETicaretAPI.Domain.Entities.File()
             {
                 FileName = d.fileName,
