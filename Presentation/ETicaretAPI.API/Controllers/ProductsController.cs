@@ -24,6 +24,7 @@ namespace ETicaretAPI.API.Controllers
         readonly IInvoiceFileReadRepository _invoiceFileReadRepository;
         readonly IInvoiceFileWriteRepository _invoiceFileWriteRepository;
         readonly IStorageService _storageService;
+        readonly IConfiguration configurariton;
 
         public ProductsController(
             IProductWriteRepository productWriteRepository, 
@@ -35,7 +36,8 @@ namespace ETicaretAPI.API.Controllers
             IProductImageFileWriteRepository productImageFileWriteRepository, 
             IInvoiceFileReadRepository invoiceFileReadRepository, 
             IInvoiceFileWriteRepository invoiceFileWriteRepository,
-            IStorageService storageService)
+            IStorageService storageService,
+            IConfiguration configuration)
         {
             _productWriteRepository = productWriteRepository;
             _productReadRepository = productReadRepository;
@@ -47,6 +49,7 @@ namespace ETicaretAPI.API.Controllers
             _invoiceFileReadRepository = invoiceFileReadRepository;
             _invoiceFileWriteRepository = invoiceFileWriteRepository;
             _storageService = storageService;
+            this.configurariton = configuration;
         }
 
         [HttpGet]
@@ -166,9 +169,22 @@ namespace ETicaretAPI.API.Controllers
 
             return Ok(product.ProductImageFiles.Select(p => new
             {
-                p.Path,
-                p.FileName
+                Path = $"{configurariton["BaseStorageUrl"]}/{p.Path}",
+                p.FileName,
+                p.Id
             }));
+        }
+
+        [HttpDelete("[action]/{id}")]
+        public async Task<IActionResult> DeleteProductımage(string id, string imageId)
+        {
+            Product? product = await _productReadRepository.Table.Include(p => p.ProductImageFiles)
+                .FirstOrDefaultAsync(p => p.Id == Guid.Parse(id));
+
+            ProductImageFile productImageFile = product.ProductImageFiles.FirstOrDefault(p => p.Id == Guid.Parse(imageId));
+            product.ProductImageFiles.Remove(productImageFile);
+            await _productWriteRepository.SaveAsync();
+            return Ok();
         }
     }
 }
