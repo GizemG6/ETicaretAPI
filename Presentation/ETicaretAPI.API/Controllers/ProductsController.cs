@@ -157,5 +157,18 @@ namespace ETicaretAPI.API.Controllers
             await _fileWriteRepository.SaveAsync(); */
             return Ok();
         }
+
+        [HttpPost("[action]/{id}")]
+        public async Task<IActionResult> GetProductImages(string id)
+        {
+            Product? product = await _productReadRepository.Table.Include(p => p.ProductImageFiles)
+                .FirstOrDefaultAsync(p => p.Id == Guid.Parse(id));
+
+            return Ok(product.ProductImageFiles.Select(p => new
+            {
+                p.Path,
+                p.FileName
+            }));
+        }
     }
 }
