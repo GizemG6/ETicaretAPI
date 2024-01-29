@@ -1,4 +1,5 @@
-﻿using MediatR;
+﻿using ETicaretAPI.Application.Exceptions;
+using MediatR;
 using Microsoft.AspNetCore.Identity;
 using System;
 using System.Collections.Generic;
@@ -23,10 +24,14 @@ namespace ETicaretAPI.Application.Features.Commands.AppUser.CreateUser
                 Email = request.Email,
                 NameSurname = request.NameSurname,
             }, request.Password);
-            if (result.Succeeded) 
-            {
-                
-            }
+
+            if (result.Succeeded)
+                return new()
+                {
+                    Successed = true,
+                    Message = "Kullanıcı başarıyla oluşturuldu."
+                };
+            throw new UserCreateFailedException();
         }
     }
 }
