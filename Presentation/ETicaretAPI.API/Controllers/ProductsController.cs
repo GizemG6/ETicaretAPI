@@ -1,5 +1,4 @@
-﻿using ETicaretAPI.Application.Abstractions.Storage;
-using ETicaretAPI.Application.Features.Commands.Product.CreateProduct;
+﻿using ETicaretAPI.Application.Features.Commands.Product.CreateProduct;
 using ETicaretAPI.Application.Features.Commands.Product.RemoveProduct;
 using ETicaretAPI.Application.Features.Commands.Product.UpdateProduct;
 using ETicaretAPI.Application.Features.Commands.ProductImageFile.RemoveProductImage;
@@ -32,7 +31,6 @@ namespace ETicaretAPI.API.Controllers
         readonly IProductImageFileWriteRepository _productImageFileWriteRepository;
         readonly IInvoiceFileReadRepository _invoiceFileReadRepository;
         readonly IInvoiceFileWriteRepository _invoiceFileWriteRepository;
-        readonly IStorageService _storageService;
         readonly IConfiguration configurariton;
 
         readonly IMediator _mediator;
@@ -47,7 +45,6 @@ namespace ETicaretAPI.API.Controllers
             IProductImageFileWriteRepository productImageFileWriteRepository, 
             IInvoiceFileReadRepository invoiceFileReadRepository, 
             IInvoiceFileWriteRepository invoiceFileWriteRepository,
-            IStorageService storageService,
             IConfiguration configuration,
             IMediator mediator)
         {
@@ -60,7 +57,6 @@ namespace ETicaretAPI.API.Controllers
             _productImageFileWriteRepository = productImageFileWriteRepository;
             _invoiceFileReadRepository = invoiceFileReadRepository;
             _invoiceFileWriteRepository = invoiceFileWriteRepository;
-            _storageService = storageService;
             this.configurariton = configuration;
             _mediator = mediator;
         }
