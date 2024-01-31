@@ -25,13 +25,15 @@ namespace ETicaretAPI.Application.Features.Commands.AppUser.CreateUser
                 NameSurname = request.NameSurname,
             }, request.Password);
 
+            CreateUserCommandResponse response = new() { Successed = result.Succeeded };
+
             if (result.Succeeded)
-                return new()
-                {
-                    Successed = true,
-                    Message = "Kullanıcı başarıyla oluşturuldu."
-                };
-            throw new UserCreateFailedException();
+                response.Message = "Kullanıcı başarıyla oluşturulmuştur."
+            else
+                foreach (var error in result.Errors)
+                    response.Message += $"{error.Code} - {error.Description}<br>";
+            return response;
+            //throw new UserCreateFailedException();
         }
     }
 }
