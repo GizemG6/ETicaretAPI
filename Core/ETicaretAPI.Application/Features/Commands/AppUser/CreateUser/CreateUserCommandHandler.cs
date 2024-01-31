@@ -20,6 +20,7 @@ namespace ETicaretAPI.Application.Features.Commands.AppUser.CreateUser
         {
             IdentityResult result = await _userManager.CreateAsync(new()
             {
+                Id = Guid.NewGuid().ToString(),
                 UserName = request.UserName,
                 Email = request.Email,
                 NameSurname = request.NameSurname,
@@ -28,7 +29,7 @@ namespace ETicaretAPI.Application.Features.Commands.AppUser.CreateUser
             CreateUserCommandResponse response = new() { Successed = result.Succeeded };
 
             if (result.Succeeded)
-                response.Message = "Kullanıcı başarıyla oluşturulmuştur."
+                response.Message = "Kullanıcı başarıyla oluşturulmuştur.";
             else
                 foreach (var error in result.Errors)
                     response.Message += $"{error.Code} - {error.Description}<br>";
